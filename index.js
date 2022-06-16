@@ -125,22 +125,30 @@ color.addEventListener("input", function (e) {
 	e.stopPropagation();
 	unckeckInputs(...checkboxes);
 	state.color = hextorgb(this.value);
+	grid.classList.remove("pen");
+	grid.classList.add("bucket");
 });
 
 clear.addEventListener("click", function (e) {
 	e.stopPropagation();
 	unckeckInputs(...checkboxes);
 	clearBackground(grid);
+	grid.classList.remove("pen");
+	grid.classList.add("bucket");
 });
 
 lighten.addEventListener("change", function (e) {
 	e.stopPropagation();
 	if (!this.checked) {
 		state.mode = "select";
+		grid.classList.remove("pen");
+		grid.classList.add("bucket");
 		state.changeAlpha = 0;
 		return;
 	}
 	unckeckInputs(darken);
+	grid.classList.add("pen");
+	grid.classList.remove("bucket");
 	state.mode = "alpha";
 	state.changeAlpha = -0.1;
 });
@@ -149,10 +157,14 @@ darken.addEventListener("change", function (e) {
 	e.stopPropagation();
 	if (!this.checked) {
 		state.mode = "select";
+		grid.classList.remove("pen");
+		grid.classList.add("bucket");
 		state.changeAlpha = 0;
 		return;
 	}
 	unckeckInputs(lighten);
+	grid.classList.add("pen");
+	grid.classList.remove("bucket");
 	state.mode = "alpha";
 	state.changeAlpha = 0.1;
 });
@@ -161,18 +173,25 @@ random.addEventListener("change", function (e) {
 	e.stopPropagation();
 	if (!this.checked) {
 		state.mode = "select";
+		grid.classList.remove("pen");
+		grid.classList.add("bucket");
 		state.color = hextorgb(color.value);
 		return;
 	}
 	unckeckInputs(lighten, darken);
+	grid.classList.remove("pen");
+	grid.classList.add("bucket");
 	state.mode = "random";
 	state.color = randomColor();
 	color.value = rgbtohex(state.color);
 });
 
 size.addEventListener("change", function (e) {
-	sizeDisplay.textContent = `${this.value}x${this.value}`;
-	populateGrid(grid, this.value);
+	let value = this.value.padStart(2, "0");
+	sizeDisplay.textContent = `${value} x ${value}`;
+	populateGrid(grid, value);
+	grid.classList.remove("pen");
+	grid.classList.add("bucket");
 });
 
 // MAIN FUNCTION

@@ -13,23 +13,8 @@
 			<div class="controls">
 				<h2 class="title">Controls</h2>
 				<div class="color-container">
-					<label for="color">Current color</label>
 					<input type="color" id="color" />
-				</div>
-				<input type="button" value="clear" id="clear" />
-				<div class="slider-container">
-					<label for="lighten">Decrease (opacity)</label>
-					<label class="switch">
-						<input type="checkbox" id="lighten" checked />
-						<span class="slider round"></span>
-					</label>
-				</div>
-				<div class="slider-container">
-					<label for="darken">Increase (opacity)</label>
-					<label class="switch">
-						<input type="checkbox" id="darken" checked />
-						<span class="slider round"></span>
-					</label>
+					<label for="color">Current color</label>
 				</div>
 				<div class="slider-container">
 					<label for="random">Random</label>
@@ -38,12 +23,33 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-				<div class="slider-container">
-					<p>Size: <span id="sizeDisplay">3x3</span></p>
-					<input id="size" type="range" min="1" max="10" step="1" />
+				<input type="button" value="clear" id="clear" />
+				<div>
+					<h3>Opacity</h3>
+					<div class="slider-container">
+						<label for="lighten">Decrease (opacity)</label>
+						<label class="switch">
+							<input type="checkbox" id="lighten" checked />
+							<span class="slider round"></span>
+						</label>
+					</div>
+					<div class="slider-container">
+						<label for="darken">Increase (opacity)</label>
+						<label class="switch">
+							<input type="checkbox" id="darken" checked />
+							<span class="slider round"></span>
+						</label>
+					</div>
+				</div>
+				<div>
+					<h3>Grid Size</h3>
+					<div class="slider-container">
+						<input id="size" type="range" min="1" max="10" step="1" />
+						<span id="sizeDisplay">03 x 03</span>
+					</div>
 				</div>
 			</div>
-			<div class="grid"></div>
+			<div class="grid bucket"></div>
 		</div>
 	</body>
 </html>
