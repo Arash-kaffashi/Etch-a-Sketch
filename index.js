@@ -16,7 +16,7 @@ const checkboxes = [darken, lighten, random];
 function randomColor() {
 	let color = crypto.getRandomValues(new Uint8Array(3)).join(",");
 	let alpha = crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
-	return `rgb(${color}, ${alpha})`;
+	return `rgba(${color}, ${alpha})`;
 }
 
 function setAlpha(color, alpha) {
