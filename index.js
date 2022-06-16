@@ -1,4 +1,4 @@
-let state = { color: "rgb(0,0,0)", changeAlpha: 0 };
+let state = { color: "#000000", changeAlpha: 0, mode: "select" };
 const grid = document.querySelector(".grid");
 const color = document.querySelector("#color");
 const clear = document.querySelector("#clear");
@@ -16,7 +16,7 @@ const checkboxes = [darken, lighten, random];
 function randomColor() {
 	let color = crypto.getRandomValues(new Uint8Array(3)).join(",");
 	let alpha = crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
-	return `rgba(${color}, ${alpha})`;
+	return `rgb(${color}, ${alpha})`;
 }
 
 function setAlpha(color, alpha) {
@@ -36,17 +36,36 @@ function inRange(start, end, value) {
 	return Math.min(Math.max(start, value), end);
 }
 
+function handleAlpha(e) {
+	e.stopPropagation();
+	e.preventDefault();
+
+	let value = getColor(this.style.backgroundColor);
+	let change = (e.deltaY > 0 ? -1 : 1) * 0.1;
+
+	value[3] = inRange(0, 1, (value[3] ?? 1) + change);
+	this.style.backgroundColor = `rgba(${value})`;
+}
+
 function paint(e) {
 	e.stopPropagation();
 	e.preventDefault();
 
 	if (e.buttons === 1) {
-		if (state.changeAlpha !== 0) {
-			let value = getColor(this.style.backgroundColor);
-			value[3] = inRange(0, 1, (value[3] ?? 1) + state.changeAlpha);
-			this.style.backgroundColor = `rgba(${value})`;
-		} else {
-			this.style.backgroundColor = state.color || randomColor();
+		switch (state.mode) {
+			case "alpha":
+				let value = getColor(this.style.backgroundColor);
+				value[3] = inRange(0, 1, (value[3] ?? 1) + state.changeAlpha);
+				this.style.backgroundColor = `rgba(${value})`;
+				break;
+			case "select":
+				this.style.backgroundColor = state.color;
+				break;
+			case "random":
+				this.style.backgroundColor = state.color;
+				state.color = randomColor();
+				color.value = rgbtohex(state.color);
+				break;
 		}
 	}
 }
@@ -69,6 +88,7 @@ function populateGrid(grid, row, limit = 10) {
 			let div = document.createElement("div");
 			div.addEventListener("mouseover", paint);
 			div.addEventListener("mousedown", paint);
+			div.addEventListener("wheel", handleAlpha);
 			grid.appendChild(div);
 		}
 	}
@@ -85,8 +105,17 @@ function hextorgb(hex) {
 	return `rgb(${color})`;
 }
 
+function rgbtohex(rgb) {
+	let color = rgb
+		.split(",", 3)
+		.map((str) => (+str.match(/\d{1,3}/)[0]).toString(16).padStart(2, "0"));
+
+	return `#${color.join("")}`;
+}
+
 function unckeckInputs(...inputs) {
 	inputs.forEach((input) => (input.checked = false));
+	state.mode = "select";
 	state.changeAlpha = 0;
 }
 
@@ -107,31 +136,38 @@ clear.addEventListener("click", function (e) {
 lighten.addEventListener("change", function (e) {
 	e.stopPropagation();
 	if (!this.checked) {
+		state.mode = "select";
 		state.changeAlpha = 0;
 		return;
 	}
 	unckeckInputs(darken);
+	state.mode = "alpha";
 	state.changeAlpha = -0.1;
 });
 
 darken.addEventListener("change", function (e) {
 	e.stopPropagation();
 	if (!this.checked) {
+		state.mode = "select";
 		state.changeAlpha = 0;
 		return;
 	}
 	unckeckInputs(lighten);
+	state.mode = "alpha";
 	state.changeAlpha = 0.1;
 });
 
 random.addEventListener("change", function (e) {
 	e.stopPropagation();
 	if (!this.checked) {
+		state.mode = "select";
 		state.color = hextorgb(color.value);
 		return;
 	}
 	unckeckInputs(lighten, darken);
-	state.color = null;
+	state.mode = "random";
+	state.color = randomColor();
+	color.value = rgbtohex(state.color);
 });
 
 size.addEventListener("change", function (e) {

@@ -1,43 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etch-a-Sketch</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="index.js" defer></script>
-</head>
-<body>
-    <div class="controls">
-        <input type="color" id="color">
-        <input type="button" value="clear" id="clear">
-        <div>
-            <label for="lighten">Decrease (opacity)</label>
-            <label class="switch">
-                <input type="checkbox" id="lighten" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div>
-            <label for="darken">Increase (opacity)</label>
-            <label class="switch">
-                <input type="checkbox" id="darken" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div>
-            <label for="random">Random</label>
-            <label class="switch">
-                <input type="checkbox" id="random" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div>
-            <p>Size: <span id="sizeDisplay">3x3</span></p>
-            <input id="size" type="range" min="1" max="10" step="1">
-        </div>
-    </div>
-    <div class="grid"></div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Etch-a-Sketch</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="index.js" defer></script>
+	</head>
+	<body>
+		<div class="app">
+			<div class="controls">
+				<h2 class="title">Controls</h2>
+				<div class="color-container">
+					<label for="color">Current color</label>
+					<input type="color" id="color" />
+				</div>
+				<input type="button" value="clear" id="clear" />
+				<div class="slider-container">
+					<label for="lighten">Decrease (opacity)</label>
+					<label class="switch">
+						<input type="checkbox" id="lighten" checked />
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="slider-container">
+					<label for="darken">Increase (opacity)</label>
+					<label class="switch">
+						<input type="checkbox" id="darken" checked />
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="slider-container">
+					<label for="random">Random</label>
+					<label class="switch">
+						<input type="checkbox" id="random" checked />
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="slider-container">
+					<p>Size: <span id="sizeDisplay">3x3</span></p>
+					<input id="size" type="range" min="1" max="10" step="1" />
+				</div>
+			</div>
+			<div class="grid"></div>
+		</div>
+	</body>
 </html>
